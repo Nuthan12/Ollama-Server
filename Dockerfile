@@ -1,13 +1,11 @@
-# Simple Ollama Docker setup
+# Base Ollama image
 FROM ollama/ollama:latest
 
-# Expose default Ollama port
+# Expose Ollama API port
 EXPOSE 11434
 
-# Download a model when building (optional)
-# Uncomment one of the following lines if you want it preloaded:
-# RUN ollama pull llama3
-# RUN ollama pull mistral
+# Preload a model so it’s available immediately on container start
+RUN /bin/bash -c "ollama serve & sleep 15 && ollama pull llama3 && pkill ollama"
 
-# Start the Ollama API server
+# Start Ollama server
 CMD ["serve"]
